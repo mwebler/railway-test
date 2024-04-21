@@ -9,17 +9,20 @@ import (
 
 func index(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Received request from", r.RemoteAddr)
+	w.Header().Set("Cache-Control", "no-store")
 	fmt.Fprintf(w, "Hello, World!")
 }
 
 func status(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Received request from", r.RemoteAddr)
+	w.Header().Set("Cache-Control", "no-store")
 	fmt.Fprintf(w, "OK")
 }
 
 func cache(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Received request from", r.RemoteAddr)
-	fmt.Fprintf(w, "Cache this response: %d", rand.Intn(1000))
+	w.Header().Set("Cache-Control", "public, max-age=60")
+	fmt.Fprintf(w, "Cache this response for 60s: %d", rand.Intn(1000))
 }
 
 func main() {
