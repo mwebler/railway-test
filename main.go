@@ -23,9 +23,9 @@ func cache(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", index)
 	http.HandleFunc("/status", status)
 	http.HandleFunc("/cache-this", cache)
+	http.HandleFunc("/", index)
 
 	port := os.Getenv("PORT")
 	if port == "" {
