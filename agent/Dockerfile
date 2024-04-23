@@ -5,6 +5,8 @@ RUN apt-get install -y gettext
 
 ARG GRAFANA_API_KEY
 
+RUN echo $GRAFANA_API_KEY
+
 COPY agent-config.yaml /etc/agent/agent.yaml
 
 RUN envsubst < /etc/agent/agent.yaml
