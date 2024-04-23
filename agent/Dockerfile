@@ -9,7 +9,7 @@ RUN echo $GRAFANA_API_KEY
 
 COPY agent-config.yaml /etc/agent/agent.yaml
 
-RUN envsubst < /etc/agent/agent.yaml
+RUN envsubst < /etc/agent/agent.yaml > /etc/agent/agent.yaml
 
 RUN cat /etc/agent/agent.yaml
 
