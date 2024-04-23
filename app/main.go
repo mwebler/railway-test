@@ -37,7 +37,7 @@ func cache(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	sysLog, err := syslog.Dial("tcp", "grafana-agent.railway.internal:1514",
+	sysLog, err := syslog.Dial("tcp", "grafana-agent:1514",
 		syslog.LOG_WARNING|syslog.LOG_DAEMON, "demotag")
 	if err != nil {
 		log.Fatal()
