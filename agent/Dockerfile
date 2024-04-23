@@ -1,5 +1,8 @@
 FROM grafana/agent:v0.40.4
 
+RUN apt-get update
+RUN apt-get install -y gettext
+
 ARG GRAFANA_API_KEY
 
 COPY agent-config.yaml /etc/agent/agent.yaml
@@ -31,3 +34,4 @@ RUN cat /etc/agent/agent.yaml
 # EXPOSE 8125/udp
 # EXPOSE 8126
 EXPOSE 514/udp
+ENTRYPOINT ["sleep", "100000"]
