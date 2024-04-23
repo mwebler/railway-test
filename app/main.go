@@ -37,7 +37,10 @@ func cache(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	sysLog, err := syslog.Dial("tcp", "grafana-agent:1514",
+	agentHost := os.Getenv("AGENT_HOST")
+	log.Info().Str("agentHost", agentHost).Msg("Starting the application")
+
+	sysLog, err := syslog.Dial("tcp", "agentHost",
 		syslog.LOG_WARNING|syslog.LOG_DAEMON, "demotag")
 	if err != nil {
 		log.Fatal()
