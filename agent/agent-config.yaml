@@ -28,7 +28,7 @@ logs:
             - source_labels: ['__syslog_message_hostname']
               target_label: 'host'
     clients:
-      - url: https://859230:${GRAFANA_API_KEY}@logs-prod-006.grafana.net/loki/api/v1/push
+      - url: "https://859230:${GRAFANA_API_KEY}@logs-prod-006.grafana.net/loki/api/v1/push"
 
 # traces:
 #   configs:

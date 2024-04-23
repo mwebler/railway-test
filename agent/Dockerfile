@@ -26,4 +26,4 @@ COPY agent-config.yaml /etc/agent/agent.yaml
 # DogStatsD port, APM port, and the syslog port
 # EXPOSE 8125/udp
 # EXPOSE 8126
-# EXPOSE 514/udp
+EXPOSE 514/udp
