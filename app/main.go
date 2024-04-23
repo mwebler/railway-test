@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log/syslog"
 	"math/rand"
 	"net/http"
 	"os"
 
-	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
@@ -37,7 +37,13 @@ func cache(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	sysLog, err := syslog.Dial("tcp", "grafana-agent.railway.internal:1514",
+		syslog.LOG_WARNING|syslog.LOG_DAEMON, "demotag")
+	if err != nil {
+		log.Fatal()
+	}
+	fmt.Fprintf(sysLog, "This is a daemon warning with demotag.")
+	sysLog.Emerg("And this is a daemon emergency with demotag.")
 
 	http.HandleFunc("/status", status)
 	http.HandleFunc("/cache-this", cache)
