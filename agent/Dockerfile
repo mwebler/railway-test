@@ -33,5 +33,4 @@ RUN cat /etc/agent/agent.yaml
 # DogStatsD port, APM port, and the syslog port
 # EXPOSE 8125/udp
 # EXPOSE 8126
-EXPOSE 514/udp
-ENTRYPOINT ["sleep", "100000"]
+EXPOSE 1514
