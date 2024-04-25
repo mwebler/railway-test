@@ -1,0 +1,39 @@
+metrics:
+  wal_directory: /tmp/grafana-agent-wal
+  global:
+    scrape_interval: 15s
+    remote_write:
+        - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
+          basic_auth:
+            username: ${GRAFANA_PROMETHEUS_USERNAME}
+            password: ${GRAFANA_CLOUD_KEY}
+
+  configs:
+    - name: default
+      scrape_configs:
+        - job_name: 'app'
+          static_configs:
+            - targets: ['localhost:${PORT}']
+
+        - job_name: 'node-exporter'
+          static_configs:
+            - targets: ['localhost:9100']
+
+# Logs configuration to read from /var/log
+logs:
+  configs:
+    - name: system-logs
+      positions:
+        filename: "/tmp/positions.yaml"
+      clients:
+        - url: 'https://logs-prod-006.grafana.net/loki/api/v1/push'
+          basic_auth:
+            username: ${GRAFANA_LOKI_USERNAME}
+            password: ${GRAFANA_CLOUD_KEY}
+      scrape_configs:
+        - job_name: 'system'
+          static_configs:
+            - targets: ['localhost']
+              labels:
+                job: "goapp"
+                __path__: "/var/log/goapp.log"
