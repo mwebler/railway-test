@@ -15,9 +15,9 @@ metrics:
           static_configs:
             - targets: ['localhost:${PORT}']
 
-        - job_name: 'node-exporter'
-          static_configs:
-            - targets: ['localhost:9100']
+        # - job_name: 'node-exporter'
+        #   static_configs:
+        #     - targets: ['localhost:9100']
 
 # Logs configuration to read from /var/log
 logs:
