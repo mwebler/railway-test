@@ -31,7 +31,7 @@ func loggingAndMetricsMiddleware(next http.Handler) http.Handler {
 		start := time.Now()
 		defer func() {
 			duration := time.Since(start).Seconds()
-			httpRequestDuration.WithLabelValues(r.URL.Path, w.).Observe(duration)
+			httpRequestDuration.WithLabelValues(r.URL.Path).Observe(duration)
 			log.Printf("HTTP Access Log: method=%s url=%s status=%d ip=%s duration=%.3f seconds\n",
 				r.Method, r.URL.Path, http.StatusOK, r.RemoteAddr, duration)
 		}()
