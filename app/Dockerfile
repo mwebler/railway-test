@@ -45,9 +45,6 @@ COPY --from=builder /app/main .
 COPY config/grafana-agent-config.yaml /etc/grafana-agent-config.yaml
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN ls -lah /usr/local/bin/grafana-agent
-RUN ls -lah /usr/local/bin
-
 # Expose the port the app runs on
 ARG PORT
 EXPOSE ${PORT}
