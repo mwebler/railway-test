@@ -1,8 +1,16 @@
+resource "random_string" "domain" {
+  length = 8
+  special = false
+  upper = false
+  lower = true
+  numeric = true 
+}
+
 resource "fastly_service_vcl" "mwebler_railway_test" { 
  name = "mwebler-railway-test"
 
   domain {
-    name = "mwebler-railway-test4.global.ssl.fastly.net"
+    name = "${random_string.domain.result}.global.ssl.fastly.net"
   }
 
   backend {
