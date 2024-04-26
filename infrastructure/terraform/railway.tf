@@ -38,3 +38,45 @@ resource "railway_service_domain" "app2" {
   service_id     = railway_service.app2.id
 }
 
+resource "railway_variable" "grafana_cloud_key1" {
+  name           = "GRAFANA_CLOUD_KEY"
+  value          = var.grafana_cloud_key
+  environment_id = railway_project.mwebler.default_environment.id
+  service_id     = railway_service.app1.id
+}
+
+resource "railway_variable" "grafana_prometheus_username1" {
+  name           = "GRAFANA_PROMETHEUS_USERNAME"
+  value          = var.grafana_prometheus_username
+  environment_id = railway_project.mwebler.default_environment.id
+  service_id     = railway_service.app1.id
+}
+
+resource "railway_variable" "grafana_loki_username1" {
+  name           = "GRAFANA_LOKI_USERNAME"
+  value          = var.grafana_loki_username
+  environment_id = railway_project.mwebler.default_environment.id
+  service_id     = railway_service.app1.id
+}
+
+resource "railway_variable" "grafana_cloud_key2" {
+  name           = "GRAFANA_CLOUD_KEY"
+  value          = var.grafana_cloud_key
+  environment_id = railway_project.mwebler.default_environment.id
+  service_id     = railway_service.app2.id
+}
+
+resource "railway_variable" "grafana_prometheus_username2" {
+  name           = "GRAFANA_PROMETHEUS_USERNAME"
+  value          = var.grafana_prometheus_username
+  environment_id = railway_project.mwebler.default_environment.id
+  service_id     = railway_service.app2.id
+}
+
+resource "railway_variable" "grafana_loki_username2" {
+  name           = "GRAFANA_LOKI_USERNAME"
+  value          = var.grafana_loki_username
+  environment_id = railway_project.mwebler.default_environment.id
+  service_id     = railway_service.app2.id
+}
+
