@@ -61,10 +61,19 @@ func main() {
 	mux.HandleFunc("/slow", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Cache-Control", "no-store")
 		// sleep for random from 0ms to 10000ms
-		sleep := rand.Intn(10000)
-		time.Sleep(time.Duration(sleep) * time.Millisecond)
+		sleepDuration, err := time.ParseDuration(fmt.Sprintf("%dms".rnd.Intn(10000)))
+		sleep := r.URL.Query().Get("sleep")
+		if sleep != "" {
+			sleepDuration, err = time.ParseDuration(sleep)
+			if err != nil {
+				http.Error(w, "Invalid sleep duration", http.StatusBadRequest)
+				return
+			}
+		}
 
-		response := fmt.Sprintf("Slept for %dms", sleep)
+		time.Sleep(sleepDuration)
+
+		response := fmt.Sprintf("Slept for %d", sleep)
 		w.Write([]byte(response))
 	})
 
