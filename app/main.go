@@ -17,7 +17,7 @@ var (
 		Name:    "http_request_duration_seconds",
 		Help:    "Duration of HTTP requests.",
 		Buckets: prometheus.ExponentialBucketsRange(0.1, 5000, 10), // Adjust bucket sizes as needed
-	}, []string{"route", "method"})
+	}, []string{"route", "method", "status"})
 )
 
 func init() {
