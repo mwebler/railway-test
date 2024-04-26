@@ -8,7 +8,7 @@ metrics:
             username: ${GRAFANA_PROMETHEUS_USERNAME}
             password: ${GRAFANA_CLOUD_KEY}
     external_labels:
-      service: ${RAILWAY_SERVICE_ID}
+      service: ${RAILWAY_SERVICE_NAME}
       replica: ${RAILWAY_REPLICA_ID}
 
   configs:
@@ -39,4 +39,6 @@ logs:
             - targets: ['localhost']
               labels:
                 job: "goapp"
+                service: ${RAILWAY_SERVICE_NAME}
+                replica: ${RAILWAY_REPLICA_ID}
                 __path__: "/var/log/goapp.log"
