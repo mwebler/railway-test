@@ -1,0 +1,16 @@
+{
+    "$schema": "https://railway.app/railway.schema.json",
+    "build": {
+        "builder": "DOCKERFILE",
+        "dockerfilePath": "/app/Dockerfile",
+        "watchPatterns": [
+            "/app/**",
+            "/infrastructure/runtimes/app-2/**"
+        ]
+    },
+    "deploy": {
+        "sleepApplication": true,
+        "numReplicas": 1,
+        "healthcheckPath": "/status"
+    }
+}
