@@ -58,6 +58,16 @@ func main() {
 		w.Write([]byte(response))
 	})
 
+	mux.HandleFunc("/slow", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "no-store")
+		// sleep for random from 0ms to 10000ms
+		sleep := rand.Intn(10000)
+		time.Sleep(time.Duration(sleep) * time.Millisecond)
+
+		response := fmt.Sprintf("Slept for %dms", sleep)
+		w.Write([]byte(response))
+	})
+
 	mux.Handle("/metrics", promhttp.Handler())
 
 	// Apply the middleware to all handlers
