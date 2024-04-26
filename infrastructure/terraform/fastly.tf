@@ -84,6 +84,7 @@ resource "fastly_service_vcl" "mwebler_railway_test" {
   }
 
   force_destroy = true
+  depends_on = [ railway_service_domain.app1, railway_service_domain.app2 ]
 }
 
 output "active" {
