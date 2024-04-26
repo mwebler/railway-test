@@ -3,7 +3,7 @@ metrics:
   global:
     scrape_interval: 15s
     remote_write:
-        - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
+        - url: ${GRAFANA_PROMETHEUS_URL}
           basic_auth:
             username: ${GRAFANA_PROMETHEUS_USERNAME}
             password: ${GRAFANA_CLOUD_KEY}
@@ -29,7 +29,7 @@ logs:
       positions:
         filename: "/tmp/positions.yaml"
       clients:
-        - url: 'https://logs-prod-006.grafana.net/loki/api/v1/push'
+        - url: ${GRAFANA_LOKI_URL}
           basic_auth:
             username: ${GRAFANA_LOKI_USERNAME}
             password: ${GRAFANA_CLOUD_KEY}

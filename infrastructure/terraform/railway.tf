@@ -4,6 +4,7 @@ resource "railway_project" "mwebler" {
   name = "mwebler"
 }
 
+//####### Services definition
 resource "railway_service" "app1" {
   name       = "app-1"
   project_id = railway_project.mwebler.id
@@ -26,6 +27,7 @@ resource "railway_service" "app2" {
   source_repo_branch = "main"
 }
 
+//####### Domains setup
 resource "railway_service_domain" "app1" {
   subdomain      = "mwebler-app1"
   environment_id = railway_project.mwebler.default_environment.id
@@ -38,6 +40,8 @@ resource "railway_service_domain" "app2" {
   service_id     = railway_service.app2.id
 }
 
+
+//####### APP 1 Secrets
 resource "railway_variable" "grafana_cloud_key1" {
   name           = "GRAFANA_CLOUD_KEY"
   value          = var.grafana_cloud_key
@@ -59,6 +63,21 @@ resource "railway_variable" "grafana_loki_username1" {
   service_id     = railway_service.app1.id
 }
 
+resource "railway_variable" "grafana_prometheus_url1" {
+  name           = "GRAFANA_PROMETHEUS_URL"
+  value          = var.grafana_prometheus_url
+  environment_id = railway_project.mwebler.default_environment.id
+  service_id     = railway_service.app1.id
+}
+
+resource "railway_variable" "grafana_loki_url1" {
+  name           = "GRAFANA_LOKI_URL"
+  value          = var.grafana_loki_url
+  environment_id = railway_project.mwebler.default_environment.id
+  service_id     = railway_service.app1.id
+}
+
+//####### APP 2 Secrets
 resource "railway_variable" "grafana_cloud_key2" {
   name           = "GRAFANA_CLOUD_KEY"
   value          = var.grafana_cloud_key
@@ -80,3 +99,16 @@ resource "railway_variable" "grafana_loki_username2" {
   service_id     = railway_service.app2.id
 }
 
+resource "railway_variable" "grafana_prometheus_url2" {
+  name           = "GRAFANA_PROMETHEUS_URL"
+  value          = var.grafana_prometheus_url
+  environment_id = railway_project.mwebler.default_environment.id
+  service_id     = railway_service.app2.id
+}
+
+resource "railway_variable" "grafana_loki_url2" {
+  name           = "GRAFANA_LOKI_URL"
+  value          = var.grafana_loki_url
+  environment_id = railway_project.mwebler.default_environment.id
+  service_id     = railway_service.app2.id
+}
