@@ -17,7 +17,7 @@ var (
 		Name:    "http_request_duration_seconds",
 		Help:    "Duration of HTTP requests.",
 		Buckets: prometheus.ExponentialBucketsRange(0.1, 5000, 10), // Adjust bucket sizes as needed
-	}, []string{"route"})
+	}, []string{"route", "method"})
 )
 
 func init() {
@@ -26,16 +26,33 @@ func init() {
 	log.SetOutput(os.Stdout) // Ensuring all logs are sent to standard output
 }
 
-func loggingAndMetricsMiddleware(next http.Handler) http.Handler {
+type loggingResponseWriter struct {
+	http.ResponseWriter
+	statusCode int
+}
+
+func NewLoggingResponseWriter(w http.ResponseWriter) *loggingResponseWriter {
+	return &loggingResponseWriter{w, http.StatusOK}
+}
+
+func (lrw *loggingResponseWriter) WriteHeader(code int) {
+	lrw.statusCode = code
+	lrw.ResponseWriter.WriteHeader(code)
+}
+
+func wrapHandlerWithLogging(wrappedHandler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
+
+		lrw := NewLoggingResponseWriter(w)
 		defer func() {
 			duration := time.Since(start).Seconds()
-			httpRequestDuration.WithLabelValues(r.URL.Path).Observe(duration)
+			httpRequestDuration.WithLabelValues(r.URL.Path, r.Method, fmt.Sprintf("%v", lrw.statusCode)).Observe(duration)
 			log.Printf("HTTP Access Log: method=%s url=%s status=%d ip=%s duration=%.3f seconds\n",
-				r.Method, r.URL.Path, http.StatusOK, r.RemoteAddr, duration)
+				r.Method, r.URL.Path, lrw.statusCode, r.RemoteAddr, duration)
 		}()
-		next.ServeHTTP(w, r)
+
+		wrappedHandler.ServeHTTP(lrw, r)
 	})
 }
 
@@ -81,7 +98,7 @@ func main() {
 	mux.Handle("/metrics", promhttp.Handler())
 
 	// Apply the middleware to all handlers
-	decoratedMux := loggingAndMetricsMiddleware(mux)
+	decoratedMux := wrapHandlerWithLogging(mux)
 
 	port := os.Getenv("PORT")
 	if port == "" {
