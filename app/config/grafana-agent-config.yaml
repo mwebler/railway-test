@@ -7,6 +7,9 @@ metrics:
           basic_auth:
             username: ${GRAFANA_PROMETHEUS_USERNAME}
             password: ${GRAFANA_CLOUD_KEY}
+    external_labels:
+      service: ${RAILWAY_SERVICE_ID}
+      replica: ${RAILWAY_REPLICA_ID}
 
   configs:
     - name: default
