@@ -75,8 +75,7 @@ func main() {
 	})
 
 	mux.HandleFunc("/kill", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Cache-Control", "no-store")
-		os.Exit(0)
+		log.Fatal("Kill server")
 	})
 
 	mux.HandleFunc("/cache-this", func(w http.ResponseWriter, r *http.Request) {
