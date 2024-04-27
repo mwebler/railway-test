@@ -104,6 +104,17 @@ func main() {
 		w.Write([]byte(response))
 	})
 
+	mux.Handle("/busy", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "no-store")
+		// do busywork with empty for
+		for i := 0; i < 1000000000; i++ {
+			// get random number from 0 to 1000
+			j := rand.Intn(1000)
+			_ = i * j
+		}
+		w.Write([]byte("Busywork done"))
+	}))
+
 	mux.Handle("/metrics", promhttp.Handler())
 
 	// Apply the middleware to all handlers
