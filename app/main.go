@@ -107,7 +107,7 @@ func main() {
 	mux.Handle("/busy", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Cache-Control", "no-store")
 		// do busywork with empty for
-		for i := 0; i < 1000000000; i++ {
+		for i := 0; i < 100000000; i++ {
 			// get random number from 0 to 1000
 			j := rand.Intn(1000)
 			_ = i * j
