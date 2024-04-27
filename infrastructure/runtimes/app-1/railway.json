@@ -10,7 +10,8 @@
     },
     "deploy": {
         "sleepApplication": true,
-        "numReplicas": 1,
-        "healthcheckPath": "/status"
+        "numReplicas": 2,
+        "healthcheckPath": "/status",
+        "restartPolicyType": "NEVER"
     }
 }
