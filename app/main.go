@@ -16,7 +16,7 @@ var (
 	httpRequestDuration = prometheus.NewHistogramVec(prometheus.HistogramOpts{
 		Name:    "http_request_duration_seconds",
 		Help:    "Duration of HTTP requests.",
-		Buckets: prometheus.ExponentialBucketsRange(0.01, 5000, 10), // Adjust bucket sizes as needed
+		Buckets: prometheus.DefBuckets, // []float64{.005, .01, .025, .05, .1, .25, .5, 1, 2.5, 5, 10}
 	}, []string{"route", "method", "status"})
 )
 
