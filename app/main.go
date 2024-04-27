@@ -69,6 +69,16 @@ func main() {
 		w.Write([]byte("OK"))
 	})
 
+	mux.HandleFunc("/error", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "no-store")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	})
+
+	mux.HandleFunc("/kill", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "no-store")
+		os.Exit(0)
+	})
+
 	mux.HandleFunc("/cache-this", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Cache-Control", "public, max-age=60")
 		response := fmt.Sprintf("Cache this response for 60s: %d", rand.Intn(1000))
