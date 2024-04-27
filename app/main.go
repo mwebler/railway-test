@@ -101,7 +101,7 @@ func main() {
 
 		time.Sleep(sleepDuration)
 
-		response := fmt.Sprintf("Slept for %s", sleep)
+		response := fmt.Sprintf("Slept for %s", sleepDuration)
 		w.Write([]byte(response))
 	})
 
