@@ -19,10 +19,6 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o main .
 # Stage 2: Build a small image
 FROM alpine:latest
 
-# install python for supervisord management
-ENV PYTHONUNBUFFERED=1
-RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
-
 # Install Grafana Agent
 RUN wget https://github.com/grafana/agent/releases/download/v0.40.4/grafana-agent-linux-amd64.zip && \
     unzip grafana-agent-linux-amd64.zip && \
@@ -48,8 +44,6 @@ COPY --from=builder /app/main .
 # Copy the Grafana Agent and Supervisor configuration files
 COPY config/grafana-agent-config.yaml /etc/grafana-agent-config.yaml
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY config/manage-supervisord /usr/local/bin/manage-supervisord
-RUN chmod +x /usr/local/bin/manage-supervisord
 
 # Expose the port the app runs on
 ARG PORT
