@@ -11,7 +11,6 @@
     "deploy": {
         "sleepApplication": true,
         "numReplicas": 2,
-        "healthcheckPath": "/status",
-        "restartPolicyType": "NEVER"
+        "healthcheckPath": "/status"
     }
 }
